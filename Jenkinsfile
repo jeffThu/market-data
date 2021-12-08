@@ -13,6 +13,7 @@ withPod {
   node('pod') {
     def tag = "${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
     def service = "market-data:${tag}"
+    def tagToDeploy = "pengtao3285/${service}"
 
     checkout scm
 
@@ -25,6 +26,12 @@ withPod {
 		      sh("docker run -v `pwd`:/workspace --rm ${service} python setup.py test")
 	      } finally {
 		      step([$class: 'JUnitResultArchiver', testResults: 'results.xml'])
+	      }
+      }
+      stage('Publish') {
+	      withDockerRegistry(registry: [credentialsId: 'dockerhub']) {
+		      sh("docker tag ${service} ${tagToDeploy}")
+			      sh("docker push ${tagToDeploy}")
 	      }
       }
     }
