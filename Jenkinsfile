@@ -29,10 +29,8 @@ withPod {
 	      }
       }
       stage('Publish') {
-	      withDockerRegistry(registry: [credentialsId: 'dockerhub']) {
-		      sh("docker tag ${service} ${tagToDeploy}")
-			      sh("docker push ${tagToDeploy}")
-	      }
+	      sh("docker tag ${service} ${tagToDeploy}")
+		      sh("docker push ${tagToDeploy}")
       }
     }
   }
