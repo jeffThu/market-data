@@ -34,13 +34,13 @@ withPod {
 			      sh("docker push ${tagToDeploy}")
 	      }
       }
-      stage('Deploy') {
-	      sh("sed -i.bak 's#BUILD_TAG#${tagToDeploy}#' ./deploy/staging/*.yml")
+    }
+    stage('Deploy') {
+	    sh("sed -i.bak 's#BUILD_TAG#${tagToDeploy}#' ./deploy/staging/*.yml")
 
-		      container('kubectl') {
-			      sh("kubectl --namespace=jenkins apply -f deploy/staging/")
-		      }
-      }
+		    container('kubectl') {
+			    sh("kubectl --namespace=default apply -f deploy/staging/")
+		    }
     }
   }
 }
