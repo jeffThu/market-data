@@ -39,7 +39,7 @@ withPod {
 	    sh("sed -i.bak 's#BUILD_TAG#${tagToDeploy}#' ./deploy/staging/*.yml")
 
 		    container('kubectl') {
-			    sh("kubectl --namespace=staging --as system:serviceaccount:staging:default  apply -f deploy/staging/")
+			    sh("kubectl --namespace=staging   apply -f deploy/staging/")
 		    }
     }
   }
