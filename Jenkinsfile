@@ -50,15 +50,15 @@ withPod {
 	    deploy.toKubernetes(tagToDeploy, 'production', 'market-data-canary')
 
 		    try {
-			    input message: "Continue releasing ${tagToDeploy} to production?" #A
+			    input message: "Continue releasing ${tagToDeploy} to production?"
 		    } catch (Exception e) {
-			    deploy.rollback('production','market-data-canary') #B
+			    deploy.rollback('production','market-data-canary')
 		    }
     }
 
     stage('Deploy to production') {
 	    deploy.toKubernetes(tagToDeploy, 'production', 'market-data')
-		    deploy.rollback('production','market-data-canary') #delete canary po
+		    deploy.rollback('production','market-data-canary')
     }
   }
 }
